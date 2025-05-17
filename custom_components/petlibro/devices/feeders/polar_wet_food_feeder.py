@@ -207,8 +207,18 @@ class PolarWetFoodFeeder(Device):
                 _LOGGER.error(f"Failed to refresh device data for triggering reposition the schedule for {self.serial}: {err}")
                 raise PetLibroAPIError(f"Error refresh device data for triggering reposition schedule: {err}")
 
-        current_feeding_plan = []
-        plan_name = self._data.get("wetFeedingPlan", {}).get("templateName")
+        wet_plan = self._data.get("wetFeedingPlan", {})
+        plan_name = wet_plan.get("templateName")
+
+        if not plan_name:
+            _LOGGER.error(f"Missing template name in wetFeedingPlan for {self.serial}")
+            raise PetLibroAPIError("Missing template name in wetFeedingPlan")
+
+        plan_data = wet_plan.get("plan", [])
+        if not isinstance(plan_data, list):
+            _LOGGER.error(f"Unexpected format for wet feeding plan: {plan_data}")
+            raise PetLibroAPIError("Invalid wet feeding plan format")
+
         current_feeding_plan = [
             {
                 "id": plate.get("id"),
