@@ -176,7 +176,14 @@ class GranarySmartCameraFeeder(Device):  # Inherit directly from Device
     @property
     def resolution(self) -> str:
         """Return the camera resolution."""
-        return self._data.get("realInfo", {}).get("resolution", "unknown")
+        api_value = self._data.get("resolution", "unknown")
+
+        # Direct mapping inside the property
+        if api_value == "P1080":
+            return "1080p"
+        if api_value == "P720":
+            return "720p"
+        return "Unknown"
 
     @property
     def night_vision(self) -> str:
