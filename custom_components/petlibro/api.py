@@ -738,6 +738,15 @@ class PetLibroAPI:
             "soundEndTime": None
         })
 
+    async def set_reposition_schedule(self, serial: str, plan: dict, template_name: str):
+        """Reposition the schedule"""
+        _LOGGER.debug(f"Triggering reposition schedule for device with serial: {serial}")
+        await self.session.post("/device/wetFeedingPlan/reposition", json={
+            "deviceSn": serial,
+            "plan": plan,
+            "templateName": template_name,
+        })
+
 ## Added this to fix dupe logs
 class PetLibroDataCoordinator(DataUpdateCoordinator):
     def __init__(self, hass, api):
