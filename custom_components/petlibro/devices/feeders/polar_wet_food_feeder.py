@@ -194,3 +194,35 @@ class PolarWetFoodFeeder(Device):
         except aiohttp.ClientError as err:
             _LOGGER.error(f"Failed to trigger feed audio for {self.serial}: {err}")
             raise PetLibroAPIError(f"Error triggering feed audio: {err}")
+
+    async def reposition_schedule(self) -> None:
+        _LOGGER.debug(f"Triggering reposition the schedule for {self.serial}")
+
+        if not self._data.get("wetFeedingPlan"):
+            _LOGGER.debug(f"Triggering device data refresh because wet feeding plan data is missing for {self.serial}")
+            # Refresh the state to ensure the wet feeding plan is already fetched
+            try:
+                await self.refresh()
+            except aiohttp.ClientError as err:
+                _LOGGER.error(f"Failed to refresh device data for triggering reposition the schedule for {self.serial}: {err}")
+                raise PetLibroAPIError(f"Error refresh device data for triggering reposition schedule: {err}")
+
+        current_feeding_plan = []
+        plan_name = self._data.get("wetFeedingPlan", {}).get("templateName")
+        current_feeding_plan = [
+            {
+                "id": plate.get("id"),
+                "plate": plate.get("plate"),
+                "label": plate.get("label"),
+                "executionStartTime": plate.get("executionStartTime"),
+                "executionEndTime": plate.get("executionEndTime"),
+            }
+            for plate in self._data.get("wetFeedingPlan", {}).get("plan", [])
+        ]
+
+        try:
+            await self.api.set_reposition_schedule(self.serial, current_feeding_plan, plan_name)
+            await self.refresh() # Refresh the state after the action
+        except aiohttp.ClientError as err:
+            _LOGGER.error(f"Failed to trigger reposition the schedule for {self.serial}: {err}")
+            raise PetLibroAPIError(f"Error triggering reposition schedule: {err}")
