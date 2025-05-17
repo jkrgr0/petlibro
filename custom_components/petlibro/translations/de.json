@@ -130,6 +130,12 @@
             },
             "enable_sound": {
                 "name": "Ton aktivieren"
+            },
+            "enable_camera": {
+                "name": "Kamera aktivieren"
+            },
+            "enable_video_watermark": {
+                "name": "Video-Wasserzeichen aktivieren"
             }
         },
         "button": {
@@ -219,6 +225,9 @@
             },
             "display_icon": {
                 "name": "Symbol auf dem Display"
+            },
+            "camera_resolution": {
+                "name": "Camera Resolution"
             }
         },
         "text": {

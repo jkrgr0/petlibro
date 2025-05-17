@@ -164,9 +164,26 @@ class GranarySmartCameraFeeder(Device):  # Inherit directly from Device
         return bool(self._data.get("realInfo", {}).get("screenDisplaySwitch", False))
 
     @property
+    def enable_camera(self) -> bool:
+        """Return if camera is on or off."""
+        return bool(self._data.get("cameraSwitch", False))
+
+    @property
+    def enable_video_watermark(self) -> bool:
+        """Return if the video watermark is on or off."""
+        return bool(self._data.get("videoWatermarkSwitch", False))
+
+    @property
     def resolution(self) -> str:
         """Return the camera resolution."""
-        return self._data.get("realInfo", {}).get("resolution", "unknown")
+        api_value = self._data.get("resolution", "unknown")
+
+        # Direct mapping inside the property
+        if api_value == "P1080":
+            return "1080p"
+        if api_value == "P720":
+            return "720p"
+        return "Unknown"
 
     @property
     def night_vision(self) -> str:
@@ -292,3 +309,63 @@ class GranarySmartCameraFeeder(Device):  # Inherit directly from Device
         except aiohttp.ClientError as err:
             _LOGGER.error(f"Failed to set feeding plan for {self.serial}: {err}")
             raise PetLibroAPIError(f"Error setting feeding plan: {err}")
+
+    # Method for switching the camera on/off
+    async def set_camera_on_off(self, value: bool) -> None:
+        value_str = "on" if value else "off"
+        _LOGGER.debug(f"Turning camera {value_str} for {self.serial}")
+
+        camera_settings = {
+            "cameraAgingType": self._data.get("cameraAgingType", 1),
+            "cameraSwitch": value,
+            "deviceSn": self.serial,
+            "videoRecordAgingType": self._data.get("videoRecordAgingType", 1),
+            "videoRecordSwitch": self.video_record_switch,
+            "videoWatermarkSwitch": self.enable_video_watermark,
+        }
+        try:
+            await self.api.set_camera_settings(camera_settings)
+            await self.refresh() # Refresh the state after the action
+        except aiohttp.ClientError as err:
+            _LOGGER.error(f"Failed to turn the camera {value_str} for {self.serial}: {err}")
+            raise PetLibroAPIError(f"Error turning camera {value_str}: {err}")
+
+    # Method for switching the video watermark on/off
+    async def set_video_watermark_on_off(self, value: bool) -> None:
+        value_str = "on" if value else "off"
+        _LOGGER.debug(f"Turning video watermark {value_str} for {self.serial}")
+
+        camera_settings = {
+            "cameraAgingType": self._data.get("cameraAgingType", 1),
+            "cameraSwitch": self.enable_camera,
+            "deviceSn": self.serial,
+            "videoRecordAgingType": self._data.get("videoRecordAgingType", 1),
+            "videoRecordSwitch": self.video_record_switch,
+            "videoWatermarkSwitch": value,
+        }
+        try:
+            await self.api.set_camera_settings(camera_settings)
+            await self.refresh() # Refresh the state after the action
+        except aiohttp.ClientError as err:
+            _LOGGER.error(f"Failed to turn the video watermark {value_str} for {self.serial}: {err}")
+            raise PetLibroAPIError(f"Error turning video watermark {value_str}: {err}")
+
+    # Method for setting the camera resolution
+    async def set_camera_resolution(self, value: str) -> None:
+        _LOGGER.debug(f"Setting camera resolution to {value} for {self.serial}")
+
+        camera_settings = {
+            "cameraAgingType": self._data.get("cameraAgingType", 1),
+            "cameraSwitch": self.enable_camera,
+            "deviceSn": self.serial,
+            "videoRecordAgingType": self._data.get("videoRecordAgingType", 1),
+            "videoRecordSwitch": self.video_record_switch,
+            "videoWatermarkSwitch": self.enable_video_watermark,
+            "resolution": value,
+        }
+        try:
+            await self.api.set_camera_settings(camera_settings)
+            await self.refresh() # Refresh the state after the action
+        except aiohttp.ClientError as err:
+            _LOGGER.error(f"Failed to setting camera resolution to {value} for {self.serial}: {err}")
+            raise PetLibroAPIError(f"Error setting camera resolution to {value}: {err}")

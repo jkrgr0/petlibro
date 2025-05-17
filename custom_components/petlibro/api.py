@@ -28,7 +28,7 @@ _LOGGER = getLogger(__name__)
 
 class PetLibroSession:
     """PetLibro AIOHTTP session"""
-    
+
     def __init__(self, base_url: str, websession: ClientSession, email: str, password: str, region: str, token: str | None = None, time_zone: str | None = None):
         self.base_url = base_url
         self.websession = websession
@@ -205,7 +205,7 @@ class PetLibroAPI:
     async def login(self, email: str, password: str) -> str:
         """Login to the API and retrieve the token"""
         _LOGGER.debug("Attempting to log in with email: %s", email)
-        
+
         try:
             # Use the request method with "POST" instead of post()
             data = await self.session.request("POST", "/member/auth/login", json={
@@ -312,7 +312,7 @@ class PetLibroAPI:
     async def get_default_matrix(self, device_sn: str) -> dict:
         """
         Fetch the default matrix for a device using a GET request.
-        
+
         :param device_sn: The serial number of the device.
         :return: The default matrix data.
         """
@@ -393,7 +393,7 @@ class PetLibroAPI:
         """Enable or disable the child lock functionality."""
         try:
             response = await self.session.post(
-                "/device/setting/updateChildLockSwitch", 
+                "/device/setting/updateChildLockSwitch",
                 json={"deviceSn": serial, "enable": enable}
             )
 
@@ -576,11 +576,11 @@ class PetLibroAPI:
             if isinstance(response, int):
                 _LOGGER.debug(f"Manual feeding successful, returned code: {response}")
                 return response
-            
+
             # If response is a dictionary (JSON), handle it
             response_data = await response.json()
             _LOGGER.debug(f"Manual feeding response data: {response_data}")
-            
+
             # Check if the response indicates success
             if response.status != 200 or response_data.get("code") != 0:
                 raise PetLibroAPIError(f"Failed to trigger manual feeding: {response_data.get('msg')}")
@@ -594,24 +594,24 @@ class PetLibroAPI:
     async def set_manual_feed_now(self, serial: str):
         """Trigger manual feed now for a specific device. This opens the food bowl door."""
         _LOGGER.debug(f"Triggering manual feed now for device with serial: {serial}")
-        
+
         try:
             # Send the POST request to trigger manual feeding
             await self.session.post("/device/wetFeedingPlan/manualFeedNow", json={
                 "deviceSn": serial,
                 # The plate ID doesn't matter here - the device will always feed from the current bowl regardless of what the plate ID is.
                 # The app also always uses 1 for the plate ID.
-                "plate": 1 
+                "plate": 1
             })
 
         except aiohttp.ClientError as err:
             _LOGGER.error(f"Failed to trigger manual feed now for device {serial}: {err}")
             raise PetLibroAPIError(f"Error triggering manual feed now: {err}")
-        
+
     async def set_stop_feed_now(self, serial: str, manual_feed_id: int):
         """Trigger stop feed now for a specific device. This closes the food bowl door."""
         _LOGGER.debug(f"Triggering stop feed now for device with serial: {serial}")
-        
+
         try:
             # Send the POST request to trigger stop feeding
             await self.session.post("/device/wetFeedingPlan/stopFeedNow", json={
@@ -622,11 +622,11 @@ class PetLibroAPI:
         except aiohttp.ClientError as err:
             _LOGGER.error(f"Failed to trigger stop feed now for device {serial}: {err}")
             raise PetLibroAPIError(f"Error triggering stop feed now: {err}")
-        
+
     async def set_rotate_food_bowl(self, serial: str) -> int:
         """Trigger rotate food bowl for a specific device. This rotates the bowls counter-clockwise by one bowl."""
         _LOGGER.debug(f"Triggering rotate food bowl for device with serial: {serial}")
-        
+
         try:
             # Send the POST request to trigger plate position change
             response = await self.session.post("/device/wetFeedingPlan/platePositionChange", json={
@@ -641,11 +641,11 @@ class PetLibroAPI:
         except aiohttp.ClientError as err:
             _LOGGER.error(f"Failed to trigger rotate food bowl for device {serial}: {err}")
             raise PetLibroAPIError(f"Error triggering rotate food bowl: {err}")
-        
+
     async def set_feed_audio(self, serial: str):
         """Trigger feed audio for a specific device."""
         _LOGGER.debug(f"Triggering feed audio for device with serial: {serial}")
-        
+
         try:
             # Send the POST request to trigger feed audio
             await self.session.post("/device/wetFeedingPlan/feedAudio", json={
@@ -659,7 +659,7 @@ class PetLibroAPI:
     async def set_desiccant_reset(self, serial: str) -> JSON:
         """Trigger desiccant reset for a specific device."""
         _LOGGER.debug(f"Triggering desiccant reset for device with serial: {serial}")
-        
+
         try:
             # Generate a dynamic request ID for the manual feeding
             request_id = str(uuid.uuid4()).replace("-", "")
@@ -675,11 +675,11 @@ class PetLibroAPI:
             if isinstance(response, int):
                 _LOGGER.debug(f"Desiccant reset set successfully, returned code: {response}")
                 return response
-            
+
             # If response is a dictionary (JSON), handle it
             response_data = await response.json()
             _LOGGER.debug(f"Desiccant reset response data: {response_data}")
-            
+
             # Check if the response indicates success
             if response.status != 200 or response_data.get("code") != 0:
                 raise PetLibroAPIError(f"Failed to trigger desiccant reset: {response_data.get('msg')}")
@@ -697,7 +697,7 @@ class PetLibroAPI:
             "barnDoorState": True,
             "timeout": 8000
         })
-    
+
     async def set_display_on(self, serial: str):
         """Trigger turn display on"""
         await self.session.post("/device/setting/updateDisplayMatrixSetting", json={
@@ -707,7 +707,7 @@ class PetLibroAPI:
             "screenDisplayEndTime": None,
             "screenDisplaySwitch": True
         })
-    
+
     async def set_display_off(self, serial: str):
         """Trigger turn display off"""
         await self.session.post("/device/setting/updateDisplayMatrixSetting", json={
@@ -727,7 +727,7 @@ class PetLibroAPI:
             "soundStartTime": None,
             "soundEndTime": None
         })
-    
+
     async def set_sound_off(self, serial: str):
         """Trigger turn sound off"""
         await self.session.post("/device/setting/updateSoundSetting", json={
@@ -737,6 +737,10 @@ class PetLibroAPI:
             "soundStartTime": None,
             "soundEndTime": None
         })
+
+    async def set_camera_settings(self, settings: dict):
+        """Set camera settings"""
+        await self.session.post("/device/setting/updateCameraSetting", json=settings)
 
     async def set_reposition_schedule(self, serial: str, plan: dict, template_name: str):
         """Reposition the schedule"""
@@ -755,4 +759,4 @@ class PetLibroDataCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(self):
         # Fetch data from the API once per update cycle
-        return await self.api.fetch_device_data()        
+        return await self.api.fetch_device_data()

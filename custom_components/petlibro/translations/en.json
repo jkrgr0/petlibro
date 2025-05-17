@@ -133,6 +133,12 @@
             },
             "manual_feed_now": {
                 "name": "Manually Open/Close Lid"
+            },
+            "enable_camera": {
+                "name": "Enable Camera"
+            },
+            "enable_video_watermark": {
+                "name": "Enable Video Watermark"
             }
         },
         "button": {
@@ -228,6 +234,9 @@
             },
             "display_icon": {
                 "name": "Icon on Display"
+            },
+            "camera_resolution": {
+                "name": "Camera Resolution"
             }
         },
         "text": {
