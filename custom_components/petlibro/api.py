@@ -39,7 +39,7 @@ class PetLibroSession:
         self.headers = {
             "source": "ANDROID",
             "language": "EN",
-            "timezone": "America/Chicago",
+            "timezone": time_zone or "America/Chicago",
             "version": "1.3.45",
         }
 
@@ -177,7 +177,7 @@ class PetLibroAPI:
 
     def __init__(self, session: ClientSession, time_zone: str, region: str, email: str, password: str, token: str | None = None, config_entry=None, hass=None):
         """Initialize."""
-        self.session = PetLibroSession(self.API_URLS[region], session, email, password, region, token)
+        self.session = PetLibroSession(self.API_URLS[region], session, email, password, region, token, time_zone)
         self.region = region
         self.time_zone = time_zone
         self.email = email  # Store email for login/re-login
