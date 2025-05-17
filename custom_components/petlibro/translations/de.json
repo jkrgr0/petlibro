@@ -134,6 +134,8 @@
             "enable_camera": {
                 "name": "Kamera aktivieren"
             },
+            "enable_video_watermark": {
+                "name": "Video-Wasserzeichen aktivieren"
             }
         },
         "button": {

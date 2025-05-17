@@ -137,6 +137,8 @@
             "enable_camera": {
                 "name": "Enable Camera"
             },
+            "enable_video_watermark": {
+                "name": "Enable Video Watermark"
             }
         },
         "button": {
