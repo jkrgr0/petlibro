@@ -29,7 +29,7 @@ _LOGGER = getLogger(__name__)
 class PetLibroSession:
     """PetLibro AIOHTTP session"""
     
-    def __init__(self, base_url: str, websession: ClientSession, email: str, password: str, region: str, token: str | None = None):
+    def __init__(self, base_url: str, websession: ClientSession, email: str, password: str, region: str, token: str | None = None, time_zone: str | None = None):
         self.base_url = base_url
         self.websession = websession
         self.token = token
