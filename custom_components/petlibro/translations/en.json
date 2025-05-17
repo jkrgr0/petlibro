@@ -231,6 +231,9 @@
             },
             "display_icon": {
                 "name": "Icon on Display"
+            },
+            "camera_resolution": {
+                "name": "Camera Resolution"
             }
         },
         "text": {

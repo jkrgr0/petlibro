@@ -99,12 +99,27 @@ class PetLibroSelectEntity(PetLibroEntity[_DeviceT], SelectEntity):
                 "Dog": 6,
                 "Cat": 7,
                 "Elk": 8,
+            },
+            "camera_resolution": {
+                "1080p": "P1080",
+                "720p": "P720"
             }
         }
         return mappings.get(key, {}).get(current_selection, "unknown")
 
 DEVICE_SELECT_MAP: dict[type[Device], list[PetLibroSelectEntityDescription]] = {
     Feeder: [
+    ],
+    GranarySmartCameraFeeder: [
+        PetLibroSelectEntityDescription[GranarySmartCameraFeeder](
+            key="resolution",
+            translation_key="camera_resolution",
+            icon="mdi:aspect-ratio",
+            current_selection=lambda device: device.resolution,
+            method=lambda device, current_selection: device.set_camera_resolution(PetLibroSelectEntity.map_value_to_api(key="camera_resolution", current_selection=current_selection)),
+            options_list=["1080p", "720p"],
+            name="Camera Resolution"
+        ),
     ],
     OneRFIDSmartFeeder: [
         PetLibroSelectEntityDescription[OneRFIDSmartFeeder](

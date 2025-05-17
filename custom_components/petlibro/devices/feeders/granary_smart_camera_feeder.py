@@ -350,3 +350,22 @@ class GranarySmartCameraFeeder(Device):  # Inherit directly from Device
             _LOGGER.error(f"Failed to turn the video watermark {value_str} for {self.serial}: {err}")
             raise PetLibroAPIError(f"Error turning video watermark {value_str}: {err}")
 
+    # Method for setting the camera resolution
+    async def set_camera_resolution(self, value: str) -> None:
+        _LOGGER.debug(f"Setting camera resolution to {value} for {self.serial}")
+
+        camera_settings = {
+            "cameraAgingType": self._data.get("cameraAgingType", 1),
+            "cameraSwitch": self.enable_camera,
+            "deviceSn": self.serial,
+            "videoRecordAgingType": self._data.get("videoRecordAgingType", 1),
+            "videoRecordSwitch": self.video_record_switch,
+            "videoWatermarkSwitch": self.enable_video_watermark,
+            "resolution": value,
+        }
+        try:
+            await self.api.set_camera_settings(camera_settings)
+            await self.refresh() # Refresh the state after the action
+        except aiohttp.ClientError as err:
+            _LOGGER.error(f"Failed to setting camera resolution to {value} for {self.serial}: {err}")
+            raise PetLibroAPIError(f"Error setting camera resolution to {value}: {err}")
