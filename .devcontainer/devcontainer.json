@@ -1,0 +1,36 @@
+{
+    "name": "Petlibro integration development",
+    "image": "mcr.microsoft.com/devcontainers/python:3.13",
+    "postCreateCommand": "scripts/setup",
+    "forwardPorts": [8123],
+    "portsAttributes": {
+        "8123": {
+            "label": "Home Assistant",
+            "onAutoForward": "notify"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "charliermarsh.ruff",
+                "ms-python.python",
+                "github.vscode-pull-request-github",
+                "ms-python.vscode-pylance",
+                "vivaxy.vscode-conventional-commits",
+                "mhutchie.git-graph",
+                "lukas-tr.materialdesignicons-intellisense"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "files.eol": "\n",
+                "editor.tabSize": 4,
+                "files.trimTrailingWhitespace": true,
+                "python.analysis.autoImportCompletions": true,
+                "[python]": {
+                    "editor.defaultFormatter": "charliermarsh.ruff"
+                }
+            }
+        }
+    },
+    "remoteUser": "vscode"
+}
