@@ -133,6 +133,10 @@
             },
             "manual_feed_now": {
                 "name": "Manually Open/Close Lid"
+            },
+            "enable_camera": {
+                "name": "Enable Camera"
+            },
             }
         },
         "button": {

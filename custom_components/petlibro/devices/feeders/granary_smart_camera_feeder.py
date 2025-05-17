@@ -164,6 +164,11 @@ class GranarySmartCameraFeeder(Device):  # Inherit directly from Device
         return bool(self._data.get("realInfo", {}).get("screenDisplaySwitch", False))
 
     @property
+    def enable_camera(self) -> bool:
+        """Return if camera is on or off."""
+        return bool(self._data.get("cameraSwitch", False))
+
+    @property
     def resolution(self) -> str:
         """Return the camera resolution."""
         return self._data.get("realInfo", {}).get("resolution", "unknown")
@@ -292,3 +297,24 @@ class GranarySmartCameraFeeder(Device):  # Inherit directly from Device
         except aiohttp.ClientError as err:
             _LOGGER.error(f"Failed to set feeding plan for {self.serial}: {err}")
             raise PetLibroAPIError(f"Error setting feeding plan: {err}")
+
+    # Method for switching the camera on/off
+    async def set_camera_on_off(self, value: bool) -> None:
+        value_str = "on" if value else "off"
+        _LOGGER.debug(f"Turning camera {value_str} for {self.serial}")
+
+        camera_settings = {
+            "cameraAgingType": self._data.get("cameraAgingType", 1),
+            "cameraSwitch": value,
+            "deviceSn": self.serial,
+            "videoRecordAgingType": self._data.get("videoRecordAgingType", 1),
+            "videoRecordSwitch": self.video_record_switch,
+            "videoWatermarkSwitch": self.enable_video_watermark,
+        }
+        try:
+            await self.api.set_camera_settings(camera_settings)
+            await self.refresh() # Refresh the state after the action
+        except aiohttp.ClientError as err:
+            _LOGGER.error(f"Failed to turn the camera {value_str} for {self.serial}: {err}")
+            raise PetLibroAPIError(f"Error turning camera {value_str}: {err}")
+

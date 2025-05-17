@@ -738,6 +738,10 @@ class PetLibroAPI:
             "soundEndTime": None
         })
 
+    async def set_camera_settings(self, settings: dict):
+        """Set camera settings"""
+        await self.session.post("/device/setting/updateCameraSetting", json=settings)
+
 ## Added this to fix dupe logs
 class PetLibroDataCoordinator(DataUpdateCoordinator):
     def __init__(self, hass, api):
