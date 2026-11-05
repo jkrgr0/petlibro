@@ -281,6 +281,12 @@
             },
             "sterilization": {
                 "name": "नसबंदी किया हुआ"
+            },
+            "enable_camera": {
+                "name": "कैमरा सक्षम करें"
+            },
+            "enable_video_watermark": {
+                "name": "वीडियो वॉटरमार्क सक्षम करें"
             }
         },
         "button": {
@@ -408,6 +414,9 @@
                     "male": "नर",
                     "female": "मादा"
                 }
+            },
+            "camera_resolution": {
+                "name": "कैमरा संकल्प"
             }
         },
         "text": {

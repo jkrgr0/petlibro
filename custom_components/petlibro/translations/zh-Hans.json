@@ -281,6 +281,12 @@
             },
             "sterilization": {
                 "name": "绝育"
+            },
+            "enable_camera": {
+                "name": "启用摄像头"
+            },
+            "enable_video_watermark": {
+                "name": "启用视频水印"
             }
         },
         "button": {
@@ -408,6 +414,9 @@
                     "male": "雄性",
                     "female": "雌性"
                 }
+            },
+            "camera_resolution": {
+                "name": "相机分辨率"
             }
         },
         "text": {

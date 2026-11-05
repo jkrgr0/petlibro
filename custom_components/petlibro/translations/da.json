@@ -281,6 +281,12 @@
             },
             "sterilization": {
                 "name": "Neutraliseret/steriliseret"
+            },
+            "enable_camera": {
+                "name": "Aktivér kameraet"
+            },
+            "enable_video_watermark": {
+                "name": "Aktivér videovandmærke"
             }
         },
         "button": {
@@ -411,6 +417,9 @@
                     "male": "Han",
                     "female": "Hun"
                 }
+            },
+            "camera_resolution": {
+                "name": "Kamera Opløsning"
             }
         },
         "text": {

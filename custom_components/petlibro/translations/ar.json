@@ -278,6 +278,12 @@
             },
             "sterilization": {
                 "name": "معقم/مخصي"
+            },
+            "enable_camera": {
+                "name": "تمكين الكاميرا"
+            },
+            "enable_video_watermark": {
+                "name": "تمكين العلامة المائية للفيديو"
             }
         },
         "button": {
@@ -405,6 +411,9 @@
                     "male": "ذكر",
                     "female": "أنثى"
                 }
+            },
+            "camera_resolution": {
+                "name": "دقة الكاميرا"
             }
         },
         "text": {

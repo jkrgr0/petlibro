@@ -281,6 +281,12 @@
             },
             "sterilization": {
                 "name": "Castrado/Esterilizado"
+            },
+            "enable_camera": {
+                "name": "Activar la cámara"
+            },
+            "enable_video_watermark": {
+                "name": "Activar marca de agua en vídeo"
             }
         },
         "button": {
@@ -408,6 +414,9 @@
                     "male": "Macho",
                     "female": "Hembra"
                 }
+            },
+            "camera_resolution": {
+                "name": "Resolución de la cámara"
             }
         },
         "text": {

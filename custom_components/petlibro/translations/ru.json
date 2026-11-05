@@ -281,6 +281,12 @@
             },
             "sterilization": {
                 "name": "Стерилизован/кастрирован"
+            },
+            "enable_camera": {
+                "name": "Включить камеру"
+            },
+            "enable_video_watermark": {
+                "name": "Включить видеоводяной знак"
             }
         },
         "button": {
@@ -408,6 +414,9 @@
                     "male": "Самец",
                     "female": "Самка"
                 }
+            },
+            "camera_resolution": {
+                "name": "Разрешение камеры"
             }
         },
         "text": {

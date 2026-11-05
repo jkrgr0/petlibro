@@ -281,6 +281,12 @@
             },
             "sterilization": {
                 "name": "Gecastreerd/Gesteriliseerd"
+            },
+            "enable_camera": {
+                "name": "Camera inschakelen"
+            },
+            "enable_video_watermark": {
+                "name": "Videowatermerk inschakelen"
             }
         },
         "button": {
@@ -411,6 +417,9 @@
                     "male": "Mannelijk",
                     "female": "Vrouwelijk"
                 }
+            },
+            "camera_resolution": {
+                "name": "Cameraresolutie"
             }
         },
         "text": {

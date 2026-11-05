@@ -281,6 +281,12 @@
             },
             "sterilization": {
                 "name": "去勢/避妊済み"
+            },
+            "enable_camera": {
+                "name": "カメラを有効にする"
+            },
+            "enable_video_watermark": {
+                "name": "動画の透かしを有効にする"
             }
         },
         "button": {
@@ -408,6 +414,9 @@
                     "male": "オス",
                     "female": "メス"
                 }
+            },
+            "camera_resolution": {
+                "name": "カメラの解像度"
             }
         },
         "text": {

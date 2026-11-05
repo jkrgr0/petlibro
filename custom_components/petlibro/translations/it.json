@@ -310,6 +310,12 @@
             },
             "sterilization": {
                 "name": "Sterilizzato/Castrato"
+            },
+            "enable_camera": {
+                "name": "Attiva la fotocamera"
+            },
+            "enable_video_watermark": {
+                "name": "Abilita filigrana video"
             }
         },
         "button": {
@@ -530,6 +536,9 @@
                     "male": "Maschio",
                     "female": "Femmina"
                 }
+            },
+            "camera_resolution": {
+                "name": "Risoluzione della telecamera"
             }
         },
         "text": {

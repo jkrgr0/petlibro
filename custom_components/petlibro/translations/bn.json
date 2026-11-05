@@ -281,6 +281,12 @@
             },
             "sterilization": {
                 "name": "নিউটার/স্পে করা"
+            },
+            "enable_camera": {
+                "name": "ভিডিও সক্ষম করুন"
+            },
+            "enable_video_watermark": {
+                "name": "ভিডিও ওয়াটারমার্ক সক্ষম করুন"
             }
         },
         "button": {
@@ -408,6 +414,9 @@
                     "male": "পুরুষ",
                     "female": "মহিলা"
                 }
+            },
+            "camera_resolution": {
+                "name": "ক্যামেরার রেজোলিউশন"
             }
         },
         "text": {
