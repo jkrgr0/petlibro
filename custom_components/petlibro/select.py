@@ -346,7 +346,7 @@ DEVICE_SELECT_MAP: dict[type[Device], list[PetLibroSelectEntityDescription]] = {
             icon="mdi:aspect-ratio",
             current_selection=lambda device: device.resolution,
             method=lambda device, current_selection: device.set_camera_resolution(PetLibroSelectEntity.map_value_to_api(key="camera_resolution", current_selection=current_selection)),
-            options_list=["1080p", "720p"],
+            options=["1080p", "720p"],
             name="Camera Resolution"
         )
     ],
