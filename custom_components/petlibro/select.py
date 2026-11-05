@@ -229,6 +229,10 @@ class PetLibroSelectEntity(PetLibroEntity[_DeviceT], RestoreEntity, SelectEntity
                 "Plate 1": 1,
                 "Plate 2": 2,
                 "Plate 3": 3,
+            },
+            "camera_resolution": {
+                "1080p": "P1080",
+                "720p": "P720"
             }
         }
         return mappings.get(key, {}).get(current_selection, "unknown")
@@ -335,6 +339,15 @@ DEVICE_SELECT_MAP: dict[type[Device], list[PetLibroSelectEntityDescription]] = {
             unit_of_measurement=Unit.CUPS.symbol,
             name="Manual Feed Quantity",
             petlibro_unit=APIKey.FEED_UNIT
+        ),
+        PetLibroSelectEntityDescription[GranarySmartCameraFeeder](
+            key="resolution",
+            translation_key="camera_resolution",
+            icon="mdi:aspect-ratio",
+            current_selection=lambda device: device.resolution,
+            method=lambda device, current_selection: device.set_camera_resolution(PetLibroSelectEntity.map_value_to_api(key="camera_resolution", current_selection=current_selection)),
+            options_list=["1080p", "720p"],
+            name="Camera Resolution"
         )
     ],
     SpaceSmartFeeder: [

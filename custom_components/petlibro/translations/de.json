@@ -408,6 +408,9 @@
                     "male": "Männlich",
                     "female": "Weiblich"
                 }
+            },
+            "camera_resolution": {
+                "name": "Camera Resolution"
             }
         },
         "text": {
