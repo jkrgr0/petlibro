@@ -51,6 +51,13 @@ DEVICE_SWITCH_MAP: dict[type[Device], list[PetLibroSwitchEntityDescription]] = {
     GranarySmartFeeder: [
     ],
     GranarySmartCameraFeeder: [
+        PetLibroSwitchEntityDescription[GranarySmartCameraFeeder](
+            key="enable_camera",
+            translation_key="enable_camera",
+            icon="mdi:camera",
+            set_fn=lambda device, value: device.set_camera_on_off(value),
+            name="Switch camera on/off"
+        ),
     ],
     OneRFIDSmartFeeder: [
     ],

@@ -579,3 +579,23 @@ class GranarySmartCameraFeeder(Device):  # Inherit directly from Device
         except aiohttp.ClientError as err:
             _LOGGER.error(f"Failed to trigger desiccant reset for {self.serial}: {err}")
             raise PetLibroAPIError(f"Error triggering desiccant reset: {err}")
+
+    # Method for switching the camera on/off
+    async def set_camera_on_off(self, value: bool) -> None:
+        value_str = "on" if value else "off"
+        _LOGGER.debug(f"Turning camera {value_str} for {self.serial}")
+
+        camera_settings = {
+            "cameraAgingType": self._data.get("cameraAgingType", 1),
+            "cameraSwitch": value,
+            "deviceSn": self.serial,
+            "videoRecordAgingType": self._data.get("videoRecordAgingType", 1),
+            "videoRecordSwitch": self.video_record_switch,
+            "videoWatermarkSwitch": self.enable_video_watermark,
+        }
+        try:
+            await self.api.set_camera_settings(camera_settings)
+            await self.refresh() # Refresh the state after the action
+        except aiohttp.ClientError as err:
+            _LOGGER.error(f"Failed to turn the camera {value_str} for {self.serial}: {err}")
+            raise PetLibroAPIError(f"Error turning camera {value_str}: {err}")

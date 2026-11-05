@@ -278,6 +278,9 @@
             },
             "sterilization": {
                 "name": "Kastriert/Sterilisiert"
+            },
+            "enable_camera": {
+                "name": "Kamera aktivieren"
             }
         },
         "button": {

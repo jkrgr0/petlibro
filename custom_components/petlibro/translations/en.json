@@ -390,6 +390,9 @@
             },
             "sterilization": {
                 "name": "Neutered/Spayed"
+            },
+            "enable_camera": {
+                "name": "Enable Camera"
             }
         },
         "button": {
