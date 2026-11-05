@@ -58,6 +58,13 @@ DEVICE_SWITCH_MAP: dict[type[Device], list[PetLibroSwitchEntityDescription]] = {
             set_fn=lambda device, value: device.set_camera_on_off(value),
             name="Switch camera on/off"
         ),
+        PetLibroSwitchEntityDescription[GranarySmartCameraFeeder](
+            key="enable_video_watermark",
+            translation_key="enable_video_watermark",
+            icon="mdi:watermark",
+            set_fn=lambda device, value: device.set_video_watermark_on_off(value),
+            name="Switch Video Watermark on/off"
+        )
     ],
     OneRFIDSmartFeeder: [
     ],
